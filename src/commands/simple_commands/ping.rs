@@ -10,7 +10,9 @@ use crate::{Context, Error};
 )]
 pub async fn ping(
     ctx: Context<'_>,
-    #[description = "Should the message be hidden from others? (Default: False)"] ephemeral: Option<bool>,
+    #[description = "Should the message be hidden from others? (Default: False)"] ephemeral: Option<
+        bool,
+    >,
 ) -> Result<(), Error> {
     let ephemeral = ephemeral.unwrap_or(false);
     let current = get_current_ms_time();
@@ -21,7 +23,11 @@ pub async fn ping(
     }
     let after = get_current_ms_time();
     let difference = after - current;
-    ctx.say(format!("Pong! `{}ms`", difference)).await?;
+    ctx.reply(format!(
+        "Pong!\nHttps: `{difference}ms`\nSocket: `{}ms`",
+        ctx.ping().await.as_millis()
+    ))
+    .await?;
     Ok(())
 }
 

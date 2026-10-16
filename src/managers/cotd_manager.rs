@@ -15,7 +15,7 @@ use super::{
 };
 
 pub const SECONDS_IN_A_DAY: u64 = 86400;
-const COLOR_API: &str = "https://api.color.pizza/v1/";
+const COLOR_API: &str = "http://localhost:8080/v1";
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 struct ColorResponse {
@@ -141,7 +141,7 @@ impl CotdManager {
 
         let url = format!("{COLOR_API}?values={}", random_color.hex());
 
-        let resp = match reqwest::get(url).await {
+        let resp = match reqwest::get(&url).await {
             Ok(resp) => resp,
             Err(err) => {
                 return Err(CotdError::Other(
@@ -158,7 +158,7 @@ impl CotdManager {
                     err.into(),
                     "Couldn't generate color name. Couldn't parse response from color api."
                         .to_string(),
-                ))
+                ));
             }
         };
 

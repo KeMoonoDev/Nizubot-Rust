@@ -1,5 +1,3 @@
-#![feature(once_cell_try)]
-
 mod commands;
 mod managers;
 mod tokens;
